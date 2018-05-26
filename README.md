@@ -20,7 +20,7 @@ Maven Dependency Management
 A step by step series of examples that tell you how to get a development env running
 
 #### Create Executable .jar file
-In the Terminal, direct your way inside of the project folder and then run the command
+Make sure to include a token for the Discord Bot in the Main.java file. Then ,in the Terminal, direct your way inside of the project folder and then run the command
 
 ```
 mvn package
