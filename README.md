@@ -50,6 +50,19 @@ Makes sure the bot's EventListener is able to get the author and local nickname 
 
 ## Deployment
 
+### Running Locally
+
+Make sure you have the [Java](https://www.java.com/en/download/manual.jsp) and the [Heroku CLI](https://cli.heroku.com/) installed.
+
+```sh
+$ git clone https://github.com/JBobda/GeneralDiscordBot.git
+$ cd GeneralDiscordBot
+$ mvn package
+$ java -jar GeneralDiscordBot-1.0-SNAPSHOT.jar
+```
+
+Your app should now be running
+
 ### Deploying to Heroku
 
 ```
@@ -79,4 +92,4 @@ or
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/JBobda/GeneralDiscordBot/blob/master/LICENSE) file for details
