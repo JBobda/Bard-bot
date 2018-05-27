@@ -58,6 +58,7 @@ Make sure you have the [Java](https://www.java.com/en/download/manual.jsp) and t
 $ git clone https://github.com/JBobda/GeneralDiscordBot.git
 $ cd GeneralDiscordBot
 $ mvn package
+$ cd target
 $ java -jar GeneralDiscordBot-1.0-SNAPSHOT.jar
 ```
 
