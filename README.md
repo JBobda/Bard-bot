@@ -51,6 +51,7 @@ Makes sure the bot's EventListener is able to get the author and local nickname 
 ## Deployment
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
 [Find out more](https://devcenter.heroku.com/categories/deployment).
 
 ## Built With
