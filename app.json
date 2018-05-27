@@ -1,0 +1,6 @@
+{
+  "name": "GeneralDiscordBot",
+  "description": "A Discord Bot developed for general tasks using the Java Discord API (JDA).
+    Created to be used in gaming servers but works in any other type of setting within the Discord application.u.",
+  "keywords": [ "discord", "bot", "Music", "Chat", "Gaming" ]
+}
