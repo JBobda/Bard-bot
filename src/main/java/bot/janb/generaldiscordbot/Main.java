@@ -28,7 +28,7 @@ public class Main {
             e.printStackTrace();
         }
         
-        discord.addEventListener();
+        discord.addEventListener(new MessageListener());
         
     }
 
