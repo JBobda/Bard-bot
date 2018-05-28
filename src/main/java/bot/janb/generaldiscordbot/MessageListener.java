@@ -24,6 +24,7 @@ public class MessageListener extends ListenerAdapter{
     
     public String getCommandPrefix(String rawMessage){
         String commandPrefix;
+        if(!rawMessage.contains(" ")) return "none";
         commandPrefix = rawMessage.substring(0, rawMessage.indexOf(" "));
         return commandPrefix;
     }
