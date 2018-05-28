@@ -20,7 +20,7 @@ Maven Dependency Management
 A step by step series of examples that tell you how to get a development env running
 
 #### Create Executable .jar file
-Make sure to include a token for the Discord Bot in the Main.java file. Then ,in the Terminal, direct your way inside of the project folder and then run the command
+Make sure to include a token for the Discord Bot in the Main.java file. Then, in the Terminal, direct your way inside of the project folder and then run the command
 
 ```
 mvn package
@@ -52,7 +52,7 @@ Makes sure the bot's EventListener is able to get the author and local nickname 
 
 ### Running Locally
 
-Make sure you have the [Java](https://www.java.com/en/download/manual.jsp) and the [Heroku CLI](https://cli.heroku.com/) installed.
+Make sure you have [Java](https://www.java.com/en/download/manual.jsp) and the [Heroku CLI](https://cli.heroku.com/) installed.
 
 ```sh
 $ git clone https://github.com/JBobda/GeneralDiscordBot.git
