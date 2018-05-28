@@ -49,16 +49,20 @@ public class MessageListener extends ListenerAdapter{
                 }
                 break;
             case "joke":
-                try{
-                    rawMessage = rawMessage.substring(rawMessage.indexOf(" "));
-                    message = new MessageBuilder()
-                            .append(rawMessage)
-                            .build();
-                }catch(StringIndexOutOfBoundsException e){
-                    message = new MessageBuilder()
-                            .append("Please enter arguments after the mimic command.")
-                            .build();
-                }
+                String [] jokes = {
+                    "Knock! Knock! Who’s there? Robin. Robin who? Robin you—hand over the cash!",
+                    event.getAuthor().getAsMention() + "! Get it? " + event.getAuthor().getAsMention() + " is the joke!",
+                    "When you look really closely, all mirrors look like eyeballs.",
+                    "I know a lot of jokes about unemployed people but none of them work.",
+                    "As I suspected, someone has been adding soil to my garden. The plot thickens.",
+                    "A horse walks into a bar, and the bartender asks, \"Why the long face?\"",
+                    "A Man walks into a bar.\"Ouch!\"",
+                };
+                
+                int jokeChoice = (int)(Math.random() * 8);
+                message = new MessageBuilder()
+                        .append(jokes[jokeChoice])
+                        .build();
                 break;
             default:
                 try{
