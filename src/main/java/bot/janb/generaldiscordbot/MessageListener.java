@@ -9,6 +9,7 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 public class MessageListener extends ListenerAdapter{
     
     private Message message;
+    private MessageChannel channel;
     private MessageReceivedEvent event;
     
     public void onMessageReceived(MessageReceivedEvent event){
@@ -27,9 +28,9 @@ public class MessageListener extends ListenerAdapter{
         
         //Calls the command menu.
         this.event = event;
-        commandMenu(command, rawMessage);
+        channel = event.getChannel();
         
-        MessageChannel channel = event.getChannel();
+        commandMenu(command, rawMessage);
         
         channel.sendMessage(message).queue();
     }
@@ -54,9 +55,13 @@ public class MessageListener extends ListenerAdapter{
                     message = new MessageBuilder()
                             .append(rawMessage)
                             .build();
+                    for (int i = 0; i < 10; i++) {
+                        channel.sendMessage(message).queue();
+                        
+                    }
                 }catch(StringIndexOutOfBoundsException e){
                     message = new MessageBuilder()
-                            .append("Please enter arguments after the mimic command.")
+                            .append("Please enter arguments after the spam command.")
                             .build();
                 }
                 break;
