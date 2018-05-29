@@ -1,6 +1,6 @@
 # General Discord Bot
 
-A Discord Bot developed for general tasks using the Java Discord API (JDA). Created to be used in gaming servers but works in any other type of setting within the Discord application.
+A Discord Bot developed for general tasks using the Java Discord API (JDA) and JDA Utilities. Created to be used in gaming servers but works in any other type of setting within the Discord application.
 
 ## Getting Started
 
