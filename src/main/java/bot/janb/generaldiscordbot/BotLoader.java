@@ -1,6 +1,8 @@
 package bot.janb.generaldiscordbot;
 
-import bot.janb.generaldiscordbot.commands.CoinFlipCommand;
+import bot.janb.generaldiscordbot.commands.MimicCommand;
+import bot.janb.generaldiscordbot.commands.fun.ChooseCommand;
+import bot.janb.generaldiscordbot.commands.fun.CoinFlipCommand;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import java.io.IOException;
@@ -15,7 +17,7 @@ import net.dv8tion.jda.core.entities.Game;
 
 public class BotLoader {
     
-    private static final String COMMAND_PREFIX = "!apx ";
+    public static final String COMMAND_PREFIX = "!apx ";
     
     private JDA discord;
     private List<String> botInfo;
@@ -43,6 +45,8 @@ public class BotLoader {
         
         //Commands
         cBuilder.addCommand(new CoinFlipCommand());
+        cBuilder.addCommand(new MimicCommand());
+        cBuilder.addCommand(new ChooseCommand());
         
         
         //Declares the JDA using the JDABuilder
@@ -56,4 +60,5 @@ public class BotLoader {
                 .buildBlocking();
 
     }
+    
 }
