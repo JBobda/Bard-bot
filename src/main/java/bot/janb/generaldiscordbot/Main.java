@@ -28,12 +28,9 @@ public class Main {
             e.printStackTrace();
         }
         
-        discord.addEventListener(new MessageListener());
+        discord.addEventListener(new BotListener());
         
     }
     
-    public JDA getDiscord(){
-        return discord;
-    }
 
 }
