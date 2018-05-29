@@ -31,5 +31,9 @@ public class Main {
         discord.addEventListener(new MessageListener());
         
     }
+    
+    public JDA getDiscord(){
+        return discord;
+    }
 
 }

@@ -1,17 +1,19 @@
 package bot.janb.generaldiscordbot;
 
 import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.core.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 public class MessageListener extends ListenerAdapter{
     
+    private static final String COMMAND_PREFIX = "!apx";
     private Message message;
     private MessageChannel channel;
     private MessageReceivedEvent event;
     
+    @Override
     public void onMessageReceived(MessageReceivedEvent event){
         //Stops messages from other bot's to trigger commands.
         if(event.getAuthor().isBot()) return;
@@ -20,7 +22,7 @@ public class MessageListener extends ListenerAdapter{
         String rawMessage = event.getMessage().getContentRaw();
         String commandPrefix = getCommandPrefix(rawMessage);
         //Checks if the command prefix has been included.
-        if(!commandPrefix.equals("!apx")) return;
+        if(!commandPrefix.equals(COMMAND_PREFIX)) return;
         
         //Isolates command from the rest of the raw message.
         rawMessage = rawMessage.substring(rawMessage.indexOf(" ") + 1);
@@ -33,6 +35,12 @@ public class MessageListener extends ListenerAdapter{
         commandMenu(command, rawMessage);
         
         channel.sendMessage(message).queue();
+    }
+    
+    @Override
+    public void onGuildJoin(GuildJoinEvent e){
+        channel = e.getGuild().getDefaultChannel();
+        sendDocumentation();
     }
     
     public void commandMenu(String command, String rawMessage){
@@ -55,7 +63,7 @@ public class MessageListener extends ListenerAdapter{
                     message = new MessageBuilder()
                             .append(rawMessage)
                             .build();
-                    for (int i = 0; i < 10; i++) {
+                    for (int i = 0; i < 14; i++) {
                         channel.sendMessage(message).queue();
                         
                     }
@@ -76,17 +84,37 @@ public class MessageListener extends ListenerAdapter{
                     "A Man walks into a bar.\"Ouch!\"",
                 };
                 
-                int jokeChoice = (int)(Math.random() * 8);
+                int jokeChoice = (int)(Math.random() * 7);
                 message = new MessageBuilder()
                         .append(jokes[jokeChoice])
                         .build();
                 break;
+            case "help":
+                sendDocumentation();
             default:
                 message = new MessageBuilder()
                         .append("\"" + command + "\" is not a valid command.")
                         .build();
                 break;
         }
+    }
+    
+    public void sendDocumentation(){
+        message = new MessageBuilder()
+                .append("**Gnar Documentation**\n" +
+                "The prefix of the bot on this server is !apx.\n\n" +
+                "Settings — 0\n" +
+                "`coming` \n\n" +
+                "**Music — 0**\n" +
+                "`coming` \n\n" +
+                "**Fun — 1**\n" +
+                "`joke` \n\n" +
+                "**Media — 0**\n" +
+                "`coming` \n\n" +
+                "**General — 2**\n" +
+                "`mimic` `spam` ")
+                .build();
+        channel.sendMessage(message).queue();
     }
     
     public String getCommandPrefix(String rawMessage){
