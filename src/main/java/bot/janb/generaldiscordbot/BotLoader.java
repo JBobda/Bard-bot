@@ -1,6 +1,8 @@
 package bot.janb.generaldiscordbot;
 
+import bot.janb.generaldiscordbot.commands.CoinFlipCommand;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -29,6 +31,8 @@ public class BotLoader {
             e.printStackTrace();
         }
         
+        EventWaiter waiter = new EventWaiter();
+        
         token = botInfo.get(0);
         ownerID = botInfo.get(1);
         
@@ -37,6 +41,9 @@ public class BotLoader {
         cBuilder.setOwnerId(ownerID);
         cBuilder.setPrefix(COMMAND_PREFIX);
         
+        //Commands
+        cBuilder.addCommand(new CoinFlipCommand());
+        
         
         //Declares the JDA using the JDABuilder
         discord = new JDABuilder(AccountType.BOT)
@@ -44,7 +51,7 @@ public class BotLoader {
                 .setAutoReconnect(true)
                 .setStatus(OnlineStatus.ONLINE)
                 .setGame(Game.playing("[GAME]"))
-                .addEventListener(new BotListener())
+                .addEventListener(waiter)
                 .addEventListener(cBuilder.build())
                 .buildBlocking();
 
