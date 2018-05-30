@@ -30,7 +30,7 @@ public class BotLoader {
     public void loadBot() throws LoginException, InterruptedException{
         //Gets the bot information from the config file
         try{
-            botInfo = Files.readAllLines(Paths.get("config.txt"));
+            botInfo = Files.readAllLines(Paths.get("res/config.txt"));
         }catch(IOException e){
             e.printStackTrace();
         }
