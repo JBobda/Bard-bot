@@ -8,7 +8,6 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 public class BotListener extends ListenerAdapter{
     
-    private static final String COMMAND_PREFIX = "!apx";
     private Message message;
     private MessageChannel channel;
     private MessageReceivedEvent event;
@@ -22,7 +21,7 @@ public class BotListener extends ListenerAdapter{
         String rawMessage = event.getMessage().getContentRaw();
         String commandPrefix = getCommandPrefix(rawMessage);
         //Checks if the command prefix has been included.
-        if(!commandPrefix.equals(COMMAND_PREFIX)) return;
+        //if(!commandPrefix.equals(COMMAND_PREFIX)) return;
         
         //Isolates command from the rest of the raw message.
         rawMessage = rawMessage.substring(rawMessage.indexOf(" ") + 1);
