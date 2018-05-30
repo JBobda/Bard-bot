@@ -34,7 +34,7 @@ public class JokeCommand extends Command{
     protected void execute(CommandEvent event) {
         channel = event.getChannel();
         try {
-            jokes = Files.readAllLines(Paths.get("jokes.txt"));
+            jokes = Files.readAllLines(Paths.get("res/jokes.txt"));
             jokes.add(event.getAuthor().getAsMention() + "! Get it? " + event.getAuthor().getAsMention() + " is the joke!");
         } catch (IOException ex) {
             ex.printStackTrace();
