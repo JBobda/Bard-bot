@@ -1,4 +1,4 @@
-package bot.janb.generaldiscordbot;
+package bot.janb.bardbot;
 
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.*;

@@ -1,10 +1,10 @@
-package bot.janb.generaldiscordbot;
+package bot.janb.bardbot;
 
-import bot.janb.generaldiscordbot.commands.MimicCommand;
-import bot.janb.generaldiscordbot.commands.SpamCommand;
-import bot.janb.generaldiscordbot.commands.fun.ChooseCommand;
-import bot.janb.generaldiscordbot.commands.fun.CoinFlipCommand;
-import bot.janb.generaldiscordbot.commands.fun.JokeCommand;
+import bot.janb.bardbot.commands.MimicCommand;
+import bot.janb.bardbot.commands.SpamCommand;
+import bot.janb.bardbot.commands.fun.ChooseCommand;
+import bot.janb.bardbot.commands.fun.CoinFlipCommand;
+import bot.janb.bardbot.commands.fun.JokeCommand;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import java.io.IOException;
@@ -24,6 +24,7 @@ public class BotLoader {
     private JDA discord;
     private List<String> botInfo;
     private CommandClientBuilder cBuilder;
+    private EventWaiter waiter;
     private String token;
     private String ownerID;
     
@@ -35,8 +36,9 @@ public class BotLoader {
             e.printStackTrace();
         }
         
-        EventWaiter waiter = new EventWaiter();
+        waiter = new EventWaiter();
         
+        //Config
         token = botInfo.get(0);
         ownerID = botInfo.get(1);
         

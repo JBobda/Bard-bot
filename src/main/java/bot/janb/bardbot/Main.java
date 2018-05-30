@@ -1,4 +1,4 @@
-package bot.janb.generaldiscordbot;
+package bot.janb.bardbot;
 
 import javax.security.auth.login.LoginException;
 

@@ -1,4 +1,4 @@
-package bot.janb.generaldiscordbot.commands;
+package bot.janb.bardbot.commands;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;

@@ -1,8 +1,9 @@
-package bot.janb.generaldiscordbot.commands;
+package bot.janb.bardbot.commands;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jdautilities.doc.standard.CommandInfo;
+import java.awt.Color;
 import net.dv8tion.jda.core.*;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.entities.MessageChannel;
@@ -32,10 +33,12 @@ public class MimicCommand extends Command{
         }else{
             content = event.getArgs();
         }
-        Message message = new MessageBuilder()
-                .append(content)
+        MessageEmbed messageEmb = new EmbedBuilder()
+                .setColor(new Color(175, 143, 14))
+                .addField("Test Mimic", content, false)
                 .build();
         
-        channel.sendMessage(message).queue();
+         
+        channel.sendMessage(messageEmb).queue();
     }
 }
