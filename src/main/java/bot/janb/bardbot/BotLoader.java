@@ -20,6 +20,7 @@ import net.dv8tion.jda.core.entities.Game;
 public class BotLoader {
     
     public static final String COMMAND_PREFIX = "!apx ";
+    private static final String FILE_PATH = "src/main/res/config.txt";
     
     private JDA discord;
     private List<String> botInfo;
@@ -31,7 +32,7 @@ public class BotLoader {
     public void loadBot() throws LoginException, InterruptedException{
         //Gets the bot information from the config file
         try{
-            botInfo = Files.readAllLines(Paths.get("res/config.txt"));
+            botInfo = Files.readAllLines(Paths.get(FILE_PATH));
         }catch(IOException e){
             e.printStackTrace();
         }
