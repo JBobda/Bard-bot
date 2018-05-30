@@ -1,8 +1,10 @@
 package bot.janb.generaldiscordbot;
 
 import bot.janb.generaldiscordbot.commands.MimicCommand;
+import bot.janb.generaldiscordbot.commands.SpamCommand;
 import bot.janb.generaldiscordbot.commands.fun.ChooseCommand;
 import bot.janb.generaldiscordbot.commands.fun.CoinFlipCommand;
+import bot.janb.generaldiscordbot.commands.fun.JokeCommand;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import java.io.IOException;
@@ -43,11 +45,8 @@ public class BotLoader {
         cBuilder.setOwnerId(ownerID);
         cBuilder.setPrefix(COMMAND_PREFIX);
         
-        //Commands
-        cBuilder.addCommand(new CoinFlipCommand());
-        cBuilder.addCommand(new MimicCommand());
-        cBuilder.addCommand(new ChooseCommand());
-        
+        //Add commands
+        loadCommands();
         
         //Declares the JDA using the JDABuilder
         discord = new JDABuilder(AccountType.BOT)
@@ -59,6 +58,15 @@ public class BotLoader {
                 .addEventListener(cBuilder.build())
                 .buildBlocking();
 
+    }
+    
+    public void loadCommands(){
+        //Commands
+        cBuilder.addCommand(new CoinFlipCommand());
+        cBuilder.addCommand(new MimicCommand());
+        cBuilder.addCommand(new ChooseCommand());
+        cBuilder.addCommand(new JokeCommand());
+        cBuilder.addCommand(new SpamCommand());
     }
     
 }

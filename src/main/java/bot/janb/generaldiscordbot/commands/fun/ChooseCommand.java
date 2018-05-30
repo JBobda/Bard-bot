@@ -9,7 +9,7 @@ import net.dv8tion.jda.core.entities.MessageChannel;
 
 
 @CommandInfo(
-    name = "Choose",
+    name = {"Choose", "Pick"},
     description = "Randomly chooses betweena list of options."
 )
 public class ChooseCommand extends Command{
