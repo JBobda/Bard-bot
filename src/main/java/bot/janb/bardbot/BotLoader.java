@@ -4,15 +4,11 @@ import bot.janb.bardbot.commands.*;
 import bot.janb.bardbot.commands.fun.*;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import javax.security.auth.login.LoginException;
 import net.dv8tion.jda.core.*;
-import net.dv8tion.jda.core.entities.Game;
 
 public class BotLoader {
     
@@ -22,12 +18,14 @@ public class BotLoader {
     private List<String> botInfo = new ArrayList<String>();
     private CommandClientBuilder cBuilder;
     private EventWaiter waiter;
+    private ResourceManager resManager;
     private String token;
     private String ownerID;
     
     public void loadBot() throws LoginException, InterruptedException, IOException{
         //Gets the bot information from the config file
-        loadConfiguration();    
+        resManager = new ResourceManager();
+        botInfo = resManager.loadFile("/config.txt");
         
         //Sets up the Event waiter
         waiter = new EventWaiter();
@@ -50,7 +48,6 @@ public class BotLoader {
                 .setToken(token)
                 .setAutoReconnect(true)
                 .setStatus(OnlineStatus.ONLINE)
-                .setGame(Game.playing("[GAME]"))
                 .addEventListener(waiter)
                 .addEventListener(cBuilder.build())
                 .buildBlocking();
@@ -69,13 +66,5 @@ public class BotLoader {
         
     }
     
-    public void loadConfiguration() throws IOException{
-        InputStream is = getClass().getResourceAsStream("/config.txt");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        String line;
-        while((line = reader.readLine()) != null){
-            botInfo.add(line);
-        }
-    }
     
 }

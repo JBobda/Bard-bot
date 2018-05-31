@@ -1,11 +1,10 @@
 package bot.janb.bardbot.commands.fun;
 
+import bot.janb.bardbot.ResourceManager;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jdautilities.doc.standard.CommandInfo;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +21,7 @@ public class JokeCommand extends Command{
 
     private MessageChannel channel;
     private List<String> jokes;
+    private ResourceManager resManager;
     
     public JokeCommand(){
         this.name = "joke";
@@ -33,13 +33,12 @@ public class JokeCommand extends Command{
     @Override
     protected void execute(CommandEvent event) {
         channel = event.getChannel();
+        resManager = new ResourceManager();
         try {
-            jokes = Files.readAllLines(Paths.get("res/jokes.txt"));
-            jokes.add(event.getAuthor().getAsMention() + "! Get it? " + event.getAuthor().getAsMention() + " is the joke!");
+            jokes = resManager.loadFile("/jokes.txt");
         } catch (IOException ex) {
             ex.printStackTrace();
-            Logger.getLogger(JokeCommand.class.getName()).log(Level.SEVERE, null, ex);
-            
+            Logger.getLogger(JokeCommand.class.getName()).log(Level.SEVERE, null, ex);  
         }
         
         int choice = (int)(Math.random() * jokes.size());
