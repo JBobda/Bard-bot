@@ -16,8 +16,7 @@ import net.dv8tion.jda.core.entities.Game;
 
 public class BotLoader {
     
-    public static final String COMMAND_PREFIX = "!apx ";
-    private static final String FILE_PATH = "src/main/resources/config.txt";
+    public static final String COMMAND_PREFIX = "+";
     
     private JDA discord;
     private List<String> botInfo = new ArrayList<String>();
@@ -30,12 +29,14 @@ public class BotLoader {
         //Gets the bot information from the config file
         loadConfiguration();    
         
+        //Sets up the Event waiter
         waiter = new EventWaiter();
         
         //Config
         token = botInfo.get(0);
         ownerID = botInfo.get(1);
         
+        //Command Client setup
         cBuilder = new CommandClientBuilder();
         cBuilder.useDefaultGame();
         cBuilder.setOwnerId(ownerID);
