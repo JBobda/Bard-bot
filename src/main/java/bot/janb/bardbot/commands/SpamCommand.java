@@ -28,25 +28,34 @@ public class SpamCommand extends Command implements Runnable{
     @Override
     protected void execute(CommandEvent event) {
         channel = event.getChannel();
+        boolean shouldSpam;
         String content;
         if (event.getArgs().isEmpty()) {
             content = "Please enter arguments after the command.";
+            shouldSpam = false;
         }else{
             content = event.getArgs();
+            shouldSpam = true;
         }
+        
         
         Message message = new MessageBuilder()
                 .append(content)
                 .build();
-        Thread thread = new Thread(this);
-        for(int i = 0; i < 20; i++){
+        if (!shouldSpam){
             channel.sendMessage(message).queue();
-            try {
-                thread.sleep(1500);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(SpamCommand.class.getName()).log(Level.SEVERE, null, ex);
+        }else{
+            Thread thread = new Thread(this);
+            for(int i = 0; i < 10; i++){
+                channel.sendMessage(message).queue();
+                try {
+                    thread.sleep(1500);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(SpamCommand.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
+        
         
     }
 
