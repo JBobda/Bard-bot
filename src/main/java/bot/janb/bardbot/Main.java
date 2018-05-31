@@ -1,5 +1,6 @@
 package bot.janb.bardbot;
 
+import java.io.IOException;
 import javax.security.auth.login.LoginException;
 
 public class Main {
@@ -11,6 +12,8 @@ public class Main {
         }catch(LoginException e){
             e.printStackTrace();
         }catch(InterruptedException e){
+            e.printStackTrace();
+        }catch(IOException e){
             e.printStackTrace();
         }
     }

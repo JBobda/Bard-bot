@@ -1,41 +1,34 @@
 package bot.janb.bardbot;
 
-import bot.janb.bardbot.commands.MimicCommand;
-import bot.janb.bardbot.commands.SpamCommand;
-import bot.janb.bardbot.commands.fun.ChooseCommand;
-import bot.janb.bardbot.commands.fun.CoinFlipCommand;
-import bot.janb.bardbot.commands.fun.JokeCommand;
+import bot.janb.bardbot.commands.*;
+import bot.janb.bardbot.commands.fun.*;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 import javax.security.auth.login.LoginException;
-import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.*;
-import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Game;
 
 public class BotLoader {
     
     public static final String COMMAND_PREFIX = "!apx ";
-    private static final String FILE_PATH = "src/main/res/config.txt";
+    private static final String FILE_PATH = "src/main/resources/config.txt";
     
     private JDA discord;
-    private List<String> botInfo;
+    private List<String> botInfo = new ArrayList<String>();
     private CommandClientBuilder cBuilder;
     private EventWaiter waiter;
     private String token;
     private String ownerID;
     
-    public void loadBot() throws LoginException, InterruptedException{
+    public void loadBot() throws LoginException, InterruptedException, IOException{
         //Gets the bot information from the config file
-        try{
-            botInfo = Files.readAllLines(Paths.get(FILE_PATH));
-        }catch(IOException e){
-            e.printStackTrace();
-        }
+        loadConfiguration();    
         
         waiter = new EventWaiter();
         
@@ -64,12 +57,24 @@ public class BotLoader {
     }
     
     public void loadCommands(){
-        //Commands
-        cBuilder.addCommand(new CoinFlipCommand());
+        //General Commands
+        cBuilder.addCommand(new SpamCommand());
         cBuilder.addCommand(new MimicCommand());
+        
+        //Fun Commands
+        cBuilder.addCommand(new CoinFlipCommand());
         cBuilder.addCommand(new ChooseCommand());
         cBuilder.addCommand(new JokeCommand());
-        cBuilder.addCommand(new SpamCommand());
+        
+    }
+    
+    public void loadConfiguration() throws IOException{
+        InputStream is = getClass().getResourceAsStream("/config.txt");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        String line;
+        while((line = reader.readLine()) != null){
+            botInfo.add(line);
+        }
     }
     
 }
