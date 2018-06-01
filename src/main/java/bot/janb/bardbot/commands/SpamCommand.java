@@ -1,5 +1,6 @@
 package bot.janb.bardbot.commands;
 
+import bot.janb.bardbot.Messages.MessageHandler;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jdautilities.doc.standard.CommandInfo;
@@ -17,6 +18,7 @@ import net.dv8tion.jda.core.entities.MessageChannel;
 public class SpamCommand extends Command implements Runnable{
     
     private MessageChannel channel;
+    private MessageHandler mHandler;
 
     public SpamCommand(){
         this.name = "spam";
@@ -28,6 +30,7 @@ public class SpamCommand extends Command implements Runnable{
     @Override
     protected void execute(CommandEvent event) {
         channel = event.getChannel();
+        mHandler = new MessageHandler();
         boolean shouldSpam;
         String content;
         if (event.getArgs().isEmpty()) {
@@ -43,11 +46,11 @@ public class SpamCommand extends Command implements Runnable{
                 .append(content)
                 .build();
         if (!shouldSpam){
-            channel.sendMessage(message).queue();
+            channel.sendMessage(mHandler.embedBuilder().build()).queue();
         }else{
             Thread thread = new Thread(this);
             for(int i = 0; i < 10; i++){
-                channel.sendMessage(message).queue();
+                channel.sendMessage(mHandler.embedBuilder().build()).queue();
                 try {
                     thread.sleep(1500);
                 } catch (InterruptedException ex) {
@@ -55,6 +58,7 @@ public class SpamCommand extends Command implements Runnable{
                 }
             }
         }
+        
         
         
     }

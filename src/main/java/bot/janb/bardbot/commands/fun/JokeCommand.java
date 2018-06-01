@@ -1,5 +1,6 @@
 package bot.janb.bardbot.commands.fun;
 
+import bot.janb.bardbot.Messages.MessageHandler;
 import bot.janb.bardbot.ResourceManager;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
@@ -20,6 +21,7 @@ import net.dv8tion.jda.core.entities.MessageChannel;
 public class JokeCommand extends Command{
 
     private MessageChannel channel;
+    private MessageHandler mHandler;
     private List<String> jokes;
     private ResourceManager resManager;
     
@@ -33,9 +35,11 @@ public class JokeCommand extends Command{
     @Override
     protected void execute(CommandEvent event) {
         channel = event.getChannel();
+        mHandler = new MessageHandler();
+        
         resManager = new ResourceManager();
         try {
-            jokes = resManager.loadFile("/jokes.txt");
+            jokes = resManager.loadTextFile("/jokes.txt");
         } catch (IOException ex) {
             ex.printStackTrace();
             Logger.getLogger(JokeCommand.class.getName()).log(Level.SEVERE, null, ex);  
@@ -46,7 +50,7 @@ public class JokeCommand extends Command{
                 .append(jokes.get(choice))
                 .build();
         
-        channel.sendMessage(message).queue();
+        channel.sendMessage(mHandler.embedBuilder().build()).queue();
     }
     
 }

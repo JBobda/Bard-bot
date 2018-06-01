@@ -1,5 +1,6 @@
 package bot.janb.bardbot.commands.fun;
 
+import bot.janb.bardbot.Messages.MessageHandler;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jdautilities.doc.standard.CommandInfo;
@@ -15,6 +16,7 @@ import net.dv8tion.jda.core.entities.MessageChannel;
 public class ChooseCommand extends Command{
 
     private MessageChannel channel;
+    private MessageHandler mHandler;
     
     public ChooseCommand(){
         this.name = "choose";
@@ -26,6 +28,7 @@ public class ChooseCommand extends Command{
     @Override
     protected void execute(CommandEvent event) {
         channel = event.getChannel();
+        mHandler = new MessageHandler();
         Message message;
         if(event.getArgs().isEmpty()){
             message = new MessageBuilder()
@@ -39,7 +42,7 @@ public class ChooseCommand extends Command{
                     .build();
         }
         
-        channel.sendMessage(message).queue();
+        channel.sendMessage(mHandler.embedBuilder().build()).queue();
     }
     
 }

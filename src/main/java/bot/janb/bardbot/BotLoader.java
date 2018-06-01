@@ -25,7 +25,7 @@ public class BotLoader {
     public void loadBot() throws LoginException, InterruptedException, IOException{
         //Gets the bot information from the config file
         resManager = new ResourceManager();
-        botInfo = resManager.loadFile("/config.txt");
+        botInfo = resManager.loadTextFile("/config.txt");
         
         //Sets up the Event waiter
         waiter = new EventWaiter();

@@ -1,5 +1,6 @@
 package bot.janb.bardbot.commands.fun;
 
+import bot.janb.bardbot.Messages.MessageHandler;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jdautilities.doc.standard.CommandInfo;
@@ -15,6 +16,7 @@ import net.dv8tion.jda.core.entities.*;
 public class CoinFlipCommand extends Command{
 
     public MessageChannel channel;
+    private MessageHandler mHandler;
     
     public CoinFlipCommand(){
         this.name = "coin";
@@ -27,6 +29,7 @@ public class CoinFlipCommand extends Command{
     protected void execute(CommandEvent ceevent) {
         //Finds channel to respond in
         channel = ceevent.getChannel();
+        mHandler = new MessageHandler();
         
         //Flips coin
         int choice = (int)(Math.random() * 2);
@@ -40,7 +43,7 @@ public class CoinFlipCommand extends Command{
         Message message = new MessageBuilder()
                         .append(coin)
                         .build();
-        channel.sendMessage(message).queue();
+        channel.sendMessage(mHandler.embedBuilder().build()).queue();
     }
 
 }
