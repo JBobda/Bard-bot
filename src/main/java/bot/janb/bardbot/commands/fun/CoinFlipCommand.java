@@ -39,11 +39,8 @@ public class CoinFlipCommand extends Command{
         }else{
             coin = "Tails";
         }
-        
-        Message message = new MessageBuilder()
-                        .append(coin)
-                        .build();
-        channel.sendMessage(mHandler.embedBuilder().build()).queue();
+
+        channel.sendMessage(mHandler.embedBuilder(name, coin).build()).queue();
     }
 
 }

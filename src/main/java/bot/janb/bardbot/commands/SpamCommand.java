@@ -41,16 +41,12 @@ public class SpamCommand extends Command implements Runnable{
             shouldSpam = true;
         }
         
-        
-        Message message = new MessageBuilder()
-                .append(content)
-                .build();
         if (!shouldSpam){
-            channel.sendMessage(mHandler.embedBuilder().build()).queue();
+            channel.sendMessage(mHandler.embedBuilder(name, content).build()).queue();
         }else{
             Thread thread = new Thread(this);
             for(int i = 0; i < 10; i++){
-                channel.sendMessage(mHandler.embedBuilder().build()).queue();
+                channel.sendMessage(mHandler.embedBuilder(name, content).build()).queue();
                 try {
                     thread.sleep(1500);
                 } catch (InterruptedException ex) {

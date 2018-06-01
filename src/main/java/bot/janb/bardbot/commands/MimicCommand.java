@@ -41,6 +41,6 @@ public class MimicCommand extends Command{
         
          */
         
-        channel.sendMessage(mHandler.embedBuilder().build()).queue();
+        channel.sendMessage(mHandler.embedBuilder(name, content).build()).queue();
     }
 }

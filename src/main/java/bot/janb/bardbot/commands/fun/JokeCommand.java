@@ -46,11 +46,8 @@ public class JokeCommand extends Command{
         }
         
         int choice = (int)(Math.random() * jokes.size());
-        Message message = new MessageBuilder()
-                .append(jokes.get(choice))
-                .build();
-        
-        channel.sendMessage(mHandler.embedBuilder().build()).queue();
+
+        channel.sendMessage(mHandler.embedBuilder(name, jokes.get(choice)).build()).queue();
     }
     
 }

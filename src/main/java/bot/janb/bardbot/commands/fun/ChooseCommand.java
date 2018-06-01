@@ -29,20 +29,16 @@ public class ChooseCommand extends Command{
     protected void execute(CommandEvent event) {
         channel = event.getChannel();
         mHandler = new MessageHandler();
-        Message message;
+        String content;
         if(event.getArgs().isEmpty()){
-            message = new MessageBuilder()
-                    .append("You didn't offer me any choices!")
-                    .build();
+            content = "You didn't offer me any choices!";
         }else{
             String[] choices = event.getArgs().split("\\s+");
             int choice = (int)(Math.random() * choices.length);
-            message = new MessageBuilder()
-                    .append(choices[choice] + " is most clearly the right choice!")
-                    .build();
+            content = choices[choice] + " is most clearly the right choice!";
         }
         
-        channel.sendMessage(mHandler.embedBuilder().build()).queue();
+        channel.sendMessage(mHandler.embedBuilder(name, content).build()).queue();
     }
     
 }
