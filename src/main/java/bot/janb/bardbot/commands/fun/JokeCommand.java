@@ -9,8 +9,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.dv8tion.jda.core.*;
-import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.entities.MessageChannel;
 
 

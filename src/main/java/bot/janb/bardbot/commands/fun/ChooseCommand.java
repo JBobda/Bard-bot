@@ -17,6 +17,7 @@ public class ChooseCommand extends Command{
 
     private MessageChannel channel;
     private MessageHandler mHandler;
+    private String title = "Choice";
     
     public ChooseCommand(){
         this.name = "choose";
@@ -38,7 +39,7 @@ public class ChooseCommand extends Command{
             content = choices[choice] + " is most clearly the right choice!";
         }
         
-        channel.sendMessage(mHandler.embedBuilder(name, content).build()).queue();
+        channel.sendMessage(mHandler.embedBuilder(title, content).build()).queue();
     }
     
 }
