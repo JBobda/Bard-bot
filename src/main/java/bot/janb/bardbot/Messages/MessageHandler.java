@@ -12,11 +12,9 @@ public class MessageHandler {
     public EmbedBuilder embedBuilder(String commandTitle, String description){
         //Upper Case for the first letter
         commandTitle = commandTitle.substring(0,1).toUpperCase() + commandTitle.substring(1);
-        //Make Bold
-        commandTitle = "**" + commandTitle + "**";
-        builder.setTitle(commandTitle);
+        
+        builder.addField(commandTitle, description, true);
         builder.setColor(embedColor);
-        builder.setDescription(description);
         
         return builder;
     }
@@ -30,7 +28,7 @@ public class MessageHandler {
     
     //Returns EmbedBuilder with generic information tied to it
     public EmbedBuilder embedBuilder(){
-        builder.setTitle("Title of Field");
+        builder.setTitle("Title");
         builder.setColor(embedColor);
         builder.setDescription("This is the description");
         builder.addField("Title of Field", "Sample field text.", false);
