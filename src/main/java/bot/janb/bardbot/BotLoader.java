@@ -22,6 +22,13 @@ public class BotLoader {
     private String token;
     private String ownerID;
     
+    /**
+     * Loads all of the proper information of the Bot
+     * 
+     * @throws LoginException
+     * @throws InterruptedException
+     * @throws IOException 
+     */
     public void loadBot() throws LoginException, InterruptedException, IOException{
         //Gets the bot information from the config file
         resManager = new ResourceManager();
@@ -54,6 +61,9 @@ public class BotLoader {
 
     }
     
+    /**
+     * Loads commands of the bot
+     */
     public void loadCommands(){
         //General Commands
         cBuilder.addCommand(new SpamCommand());

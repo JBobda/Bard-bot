@@ -33,13 +33,6 @@ public class MimicCommand extends Command{
         }else{
             content = event.getArgs();
         }
-        /*
-        MessageEmbed messageEmb = new EmbedBuilder()
-                .setColor(new Color(175, 143, 14))
-                .addField("Test Mimic", content, false)
-                .build();
-        
-         */
         
         channel.sendMessage(mHandler.embedBuilder(name, content).build()).queue();
     }

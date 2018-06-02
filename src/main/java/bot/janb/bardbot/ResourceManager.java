@@ -12,6 +12,13 @@ public class ResourceManager {
     private List<String> list;
     private BufferedImage image;
     
+    /**
+     * Loads any text file within the resources folder
+     * 
+     * @param path , the location of the file
+     * @return List<String> a list object with each index being a line of the file.
+     * @throws IOException 
+     */
     public List<String> loadTextFile(String path) throws IOException{
         list = new ArrayList<String>();
         InputStream is = getClass().getResourceAsStream(path);
@@ -23,6 +30,13 @@ public class ResourceManager {
         return list;
     }
     
+    /**
+     * Loads any image file within the resources folder
+     * 
+     * @param path , the location of the file
+     * @return BufferedImage a buffered image of the image located at the specified path
+     * @throws IOException 
+     */
     public BufferedImage loadImageFile(String path) throws IOException{
         InputStream is = getClass().getResourceAsStream(path);
         image = ImageIO.read(is);

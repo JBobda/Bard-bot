@@ -39,8 +39,7 @@ public class JokeCommand extends Command{
         try {
             jokes = resManager.loadTextFile("/jokes.txt");
         } catch (IOException ex) {
-            ex.printStackTrace();
-            Logger.getLogger(JokeCommand.class.getName()).log(Level.SEVERE, null, ex);  
+            Logger.getLogger(JokeCommand.class.getName()).log(Level.SEVERE, "IOException Occured", ex);  
         }
         
         int choice = (int)(Math.random() * jokes.size());
