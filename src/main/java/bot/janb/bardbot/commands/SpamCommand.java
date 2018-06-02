@@ -6,8 +6,6 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jdautilities.doc.standard.CommandInfo;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 
 
@@ -27,6 +25,12 @@ public class SpamCommand extends Command implements Runnable{
         //this.aliases = new String[]{""};
     }
     
+    /**
+     * Sends five messages into the channel of the event
+     * and sleeps for 1.5 seconds between each message
+     * 
+     * @param event that contains the channel
+     */
     @Override
     protected void execute(CommandEvent event) {
         channel = event.getChannel();
@@ -45,8 +49,8 @@ public class SpamCommand extends Command implements Runnable{
             channel.sendMessage(mHandler.embedBuilder(name, content).build()).queue();
         }else{
             Thread thread = new Thread(this);
-            for(int i = 0; i < 10; i++){
-                channel.sendMessage(mHandler.embedBuilder(name, content).build()).queue();
+            for(int i = 0; i < 5; i++){
+                channel.sendMessage(mHandler.embedBuilder(name, content, event).build()).queue();
                 try {
                     thread.sleep(1500);
                 } catch (InterruptedException ex) {

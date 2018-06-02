@@ -24,10 +24,16 @@ public class CoinFlipCommand extends Command{
         this.aliases = new String[]{"flip"};
     }
     
+    /**
+     * Uses the Math.random() function to choose between
+     * "Heads" or "Tails" and sends it to the channel of the event
+     * 
+     * @param event that contains the channel
+     */
     @Override
-    protected void execute(CommandEvent ceevent) {
+    protected void execute(CommandEvent event) {
         //Finds channel to respond in
-        channel = ceevent.getChannel();
+        channel = event.getChannel();
         mHandler = new MessageHandler();
         
         //Flips coin
@@ -39,7 +45,7 @@ public class CoinFlipCommand extends Command{
             coin = "Tails";
         }
 
-        channel.sendMessage(mHandler.embedBuilder(name, coin).build()).queue();
+        channel.sendMessage(mHandler.embedBuilder(name, coin, event).build()).queue();
     }
 
 }

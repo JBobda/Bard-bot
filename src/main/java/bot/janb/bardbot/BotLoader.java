@@ -2,6 +2,7 @@ package bot.janb.bardbot;
 
 import bot.janb.bardbot.commands.*;
 import bot.janb.bardbot.commands.fun.*;
+import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import java.io.IOException;
@@ -74,6 +75,10 @@ public class BotLoader {
         cBuilder.addCommand(new ChooseCommand());
         cBuilder.addCommand(new JokeCommand());
         
+    }
+    
+    public CommandClient getCommandClient(){
+        return cBuilder.build();
     }
     
     

@@ -24,6 +24,14 @@ public class ChooseCommand extends Command{
         this.aliases = new String[]{"pick"};
     }
     
+    /**
+     * Uses the Math.random() function to choose between two
+     * options in the arguments and send it to the channel of the
+     * event. If there is no arguments it will prompt the user to
+     * resend the command with arguments
+     * 
+     * @param event that contains the channel
+     */
     @Override
     protected void execute(CommandEvent event) {
         channel = event.getChannel();
@@ -37,7 +45,7 @@ public class ChooseCommand extends Command{
             content = choices[choice] + " is most clearly the right choice!";
         }
         
-        channel.sendMessage(mHandler.embedBuilder(title, content).build()).queue();
+        channel.sendMessage(mHandler.embedBuilder(title, content, event).build()).queue();
     }
     
 }

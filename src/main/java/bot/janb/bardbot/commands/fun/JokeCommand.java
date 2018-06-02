@@ -30,6 +30,13 @@ public class JokeCommand extends Command{
         this.aliases = new String[]{"pun"};       
     }
 
+    /**
+     * Loads a text file with a list of jokes into an array list
+     * and then then uses the Math.random() function to choose from
+     * that list and sends it to the channel of the event
+     * 
+     * @param event that contains the channel 
+     */
     @Override
     protected void execute(CommandEvent event) {
         channel = event.getChannel();
@@ -44,7 +51,7 @@ public class JokeCommand extends Command{
         
         int choice = (int)(Math.random() * jokes.size());
 
-        channel.sendMessage(mHandler.embedBuilder(name, jokes.get(choice)).build()).queue();
+        channel.sendMessage(mHandler.embedBuilder(name, jokes.get(choice), event).build()).queue();
     }
     
 }

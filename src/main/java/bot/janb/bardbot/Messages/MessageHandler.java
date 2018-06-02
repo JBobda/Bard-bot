@@ -1,7 +1,9 @@
 package bot.janb.bardbot.Messages;
 
+import com.jagrosh.jdautilities.command.CommandEvent;
 import java.awt.Color;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.User;
 
 public class MessageHandler {
     
@@ -20,6 +22,26 @@ public class MessageHandler {
         //Upper Case for the first letter
         commandTitle = commandTitle.substring(0,1).toUpperCase() + commandTitle.substring(1);
         
+        builder.addField(commandTitle, description, true);
+        builder.setColor(embedColor);
+        
+        return builder;
+    }
+    
+    /**
+     * Creates an EmbedBuilder containing one field that has the name of the
+     * command calling it, the author's username and picture and the description 
+     * of what that command wants to embed
+     * 
+     * @param commandTitle the title of the command that calls this method
+     * @param description the message that the command wants to send in an embed
+     * @return EmbedBuilder with field that has commandTitle and description
+     */
+    public EmbedBuilder embedBuilder(String commandTitle, String description, CommandEvent event){
+        //Upper Case for the first letter
+        commandTitle = commandTitle.substring(0,1).toUpperCase() + commandTitle.substring(1);
+        User author = event.getAuthor();
+        builder.setAuthor(author.getName(), null, author.getAvatarUrl());
         builder.addField(commandTitle, description, true);
         builder.setColor(embedColor);
         
