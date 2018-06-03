@@ -19,7 +19,6 @@ public class BotLoader {
     private List<String> botInfo = new ArrayList<String>();
     private CommandClientBuilder cBuilder;
     private EventWaiter waiter;
-    private BotListener botListener;
     private ResourceManager resManager;
     private String token;
     private String ownerID;
