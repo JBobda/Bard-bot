@@ -36,7 +36,7 @@ An executable .jar file will be created inside of the /target folder
 Make sure you have [Java](https://www.java.com/en/download/manual.jsp) and the [Heroku CLI](https://cli.heroku.com/) installed.
 
 ```sh
-$ git clone https://github.com/JBobda/GeneralDiscordBot.git
+$ git clone https://github.com/JBobda/Bard-bot.git
 $ cd GeneralDiscordBot
 $ mvn package
 $ cd target
