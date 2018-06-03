@@ -1,9 +1,9 @@
 package bot.janb.bardbot;
 
 import bot.janb.bardbot.commands.*;
+import bot.janb.bardbot.commands.Music.PlayCommand;
 import bot.janb.bardbot.commands.fun.*;
-import com.jagrosh.jdautilities.command.CommandClient;
-import com.jagrosh.jdautilities.command.CommandClientBuilder;
+import com.jagrosh.jdautilities.command.*;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,6 +19,7 @@ public class BotLoader {
     private List<String> botInfo = new ArrayList<String>();
     private CommandClientBuilder cBuilder;
     private EventWaiter waiter;
+    private BotListener botListener;
     private ResourceManager resManager;
     private String token;
     private String ownerID;
@@ -75,8 +76,16 @@ public class BotLoader {
         cBuilder.addCommand(new ChooseCommand());
         cBuilder.addCommand(new JokeCommand());
         
+        //Music Commands
+        cBuilder.addCommand(new PlayCommand());
+        
     }
     
+    /**
+     * Returns the CommandClient of this BotLoader
+     * 
+     * @return CommandClient 
+     */
     public CommandClient getCommandClient(){
         return cBuilder.build();
     }

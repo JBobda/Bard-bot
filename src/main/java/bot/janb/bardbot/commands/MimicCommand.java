@@ -5,7 +5,6 @@ import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jdautilities.doc.standard.CommandInfo;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.User;
 
 
 @CommandInfo(

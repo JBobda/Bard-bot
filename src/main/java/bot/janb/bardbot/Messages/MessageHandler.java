@@ -7,8 +7,8 @@ import net.dv8tion.jda.core.entities.User;
 
 public class MessageHandler {
     
-    private EmbedBuilder builder = new EmbedBuilder();
-    private Color embedColor = new Color(175, 143, 14);
+    private static final Color EMBED_DEFAULT_COLOR = new Color(175, 143, 14);
+    private static EmbedBuilder builder;
     
     /**
      * Creates an EmbedBuilder containing one field that has the name of the
@@ -18,12 +18,13 @@ public class MessageHandler {
      * @param description the message that the command wants to send in an embed
      * @return EmbedBuilder with field that has commandTitle and description
      */
-    public EmbedBuilder embedBuilder(String commandTitle, String description){
+    public static EmbedBuilder embedBuilder(String commandTitle, String description){
         //Upper Case for the first letter
         commandTitle = commandTitle.substring(0,1).toUpperCase() + commandTitle.substring(1);
         
+        builder = new EmbedBuilder();
         builder.addField(commandTitle, description, true);
-        builder.setColor(embedColor);
+        builder.setColor(EMBED_DEFAULT_COLOR);
         
         return builder;
     }
@@ -37,13 +38,15 @@ public class MessageHandler {
      * @param description the message that the command wants to send in an embed
      * @return EmbedBuilder with field that has commandTitle and description
      */
-    public EmbedBuilder embedBuilder(String commandTitle, String description, CommandEvent event){
+    public static EmbedBuilder embedBuilder(String commandTitle, String description, CommandEvent event){
         //Upper Case for the first letter
         commandTitle = commandTitle.substring(0,1).toUpperCase() + commandTitle.substring(1);
         User author = event.getAuthor();
+        
+        builder = new EmbedBuilder();
         builder.setAuthor(author.getName(), null, author.getAvatarUrl());
         builder.addField(commandTitle, description, true);
-        builder.setColor(embedColor);
+        builder.setColor(EMBED_DEFAULT_COLOR);
         
         return builder;
     }
@@ -55,8 +58,10 @@ public class MessageHandler {
      * @param url the raw URL location of the image
      * @return EmbedBuilder with the image specified at the given URL
      */
-    public EmbedBuilder embedBuilder(String url){
+    public static EmbedBuilder embedBuilder(String url){
+        builder = new EmbedBuilder();
         builder.setImage(url);
+        builder.setColor(EMBED_DEFAULT_COLOR);
         
         return builder;
     }
@@ -66,9 +71,11 @@ public class MessageHandler {
      * 
      * @return EmbedBuilder with generic information
      */
-    public EmbedBuilder embedBuilder(){
+    public static EmbedBuilder embedBuilder(){
+        
+        builder = new EmbedBuilder();
         builder.setTitle("Title");
-        builder.setColor(embedColor);
+        builder.setColor(EMBED_DEFAULT_COLOR);
         builder.setDescription("This is the description");
         builder.addField("Title of Field", "Sample field text.", false);
         //Make sure it is the raw Image
