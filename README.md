@@ -20,33 +20,14 @@ Maven Dependency Management
 A step by step series of examples that tell you how to get a development env running
 
 #### Create Executable .jar file
-Make sure to include a token for the Discord Bot in the Main.java file. Then, in the Terminal, direct your way inside of the project folder and then run the command
+Make sure to include a token for the Discord Bot in the Main.java file. Then, in the Terminal, direct your way inside of the project folder and then run the following commands
 
 ```
-mvn package
+$ mvn clean compile
+$ mvn package
 ```
 
 An executable .jar file will be created inside of the /target folder
-
-## Running the tests
-
-Basic commands to check if the bot is working properly.
-
-### Mimic
-
-Makes sure the bot's EventListener is working properly and can also repeat phrases. Type this command in any Discord channel that this bot is connected to.
-
-```
-!apx mimic "Phrase"
-```
-
-### Joke
-
-Makes sure the bot's EventListener is able to get the author and local nickname of user entering the command. Type this command in any Discord channel that this bot is connected to.
-
-```
-!apx joke
-```
 
 ## Deployment
 
@@ -59,7 +40,7 @@ $ git clone https://github.com/JBobda/GeneralDiscordBot.git
 $ cd GeneralDiscordBot
 $ mvn package
 $ cd target
-$ java -jar GeneralDiscordBot-1.0-SNAPSHOT.jar
+$ java -jar BardBot-1.0.jar
 ```
 
 Your app should now be running
