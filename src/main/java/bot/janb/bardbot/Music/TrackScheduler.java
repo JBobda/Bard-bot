@@ -16,7 +16,6 @@ public class TrackScheduler extends AudioEventAdapter{
     public TrackScheduler(AudioPlayer player){
         this.player = player;
         this.queue = new LinkedBlockingQueue<AudioTrack>();
-        counter = 0;
     }
     
     /**
@@ -29,7 +28,6 @@ public class TrackScheduler extends AudioEventAdapter{
         if (!player.startTrack(track, true)) {
             queue.offer(track);
         }
-        player.playTrack(track);
     }
     
     public void nextTrack(){
