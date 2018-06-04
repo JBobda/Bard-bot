@@ -1,8 +1,18 @@
 package bot.janb.bardbot.commands.Music;
 
 import bot.janb.bardbot.Messages.MessageHandler;
+import bot.janb.bardbot.Music.*;
 import com.jagrosh.jdautilities.command.*;
 import com.jagrosh.jdautilities.doc.standard.CommandInfo;
+import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
+import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
+import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
+import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
+import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import net.dv8tion.jda.core.audio.AudioSendHandler;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.managers.AudioManager;
 
@@ -11,21 +21,40 @@ import net.dv8tion.jda.core.managers.AudioManager;
     name = {"Play","Music"},
     description = "Plays the music requested in the arguments"
 )
-public class PlayCommand extends Command{
+public class PlayMusicCommand extends Command{
     
     private VoiceChannel voiceChannel;
     private AudioManager audioManager;
+    private AudioPlayerManager playerManager;
+    private AudioPlayer player;
+    private TrackScheduler trackScheduler;
+    private AudioSendHandler sendHandler;
     
-    public PlayCommand(){
+    public PlayMusicCommand(){
+        //Sets up command
         this.name = "play";
         this.help = "Plays the music requested in the arguments";
         this.guildOnly = true;
         this.aliases = new String[]{"music"};
+        
     }
 
     @Override
     protected void execute(CommandEvent event) {
+        //Audio setup
         openAudioChannel(event);
+        
+        //Music Setup
+        playerManager = new DefaultAudioPlayerManager();
+        player = playerManager.createPlayer();
+        trackScheduler = new TrackScheduler(player);
+        player.addListener(trackScheduler);
+        AudioSourceManagers.registerRemoteSources(playerManager); 
+        playerManager.loadItemOrdered(event.getGuild(), "https://www.youtube.com/watch?v=xpVfcZ0ZcFM",  new ResultHandler(trackScheduler));
+        
+        sendHandler = new SendHandler(player);
+        audioManager.setSendingHandler(sendHandler);
+        
     }
     
     /**

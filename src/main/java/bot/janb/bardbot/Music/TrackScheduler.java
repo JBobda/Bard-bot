@@ -3,18 +3,19 @@ package bot.janb.bardbot.Music;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
-import java.util.ArrayList;
-import java.util.List;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class TrackScheduler extends AudioEventAdapter{
     
     private AudioPlayer player;
-    private List<AudioTrack> trackList;
+    private final BlockingQueue<AudioTrack> queue;
     private int counter;
 
     public TrackScheduler(AudioPlayer player){
         this.player = player;
-        this.trackList = new ArrayList<AudioTrack>();
+        this.queue = new LinkedBlockingQueue<AudioTrack>();
         counter = 0;
     }
     
@@ -26,7 +27,20 @@ public class TrackScheduler extends AudioEventAdapter{
      */
     public void queue(AudioTrack track) {
         if (!player.startTrack(track, true)) {
-            trackList.add(track);
+            queue.offer(track);
+        }
+        player.playTrack(track);
+    }
+    
+    public void nextTrack(){
+        player.startTrack(queue.poll(), false);
+    }
+    
+    @Override
+    public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
+      // Only start the next track if the end reason is suitable for it (FINISHED or LOAD_FAILED)
+        if (endReason.mayStartNext) {
+            nextTrack();
         }
     }
 
