@@ -29,9 +29,9 @@ public class TrackScheduler extends AudioEventAdapter{
     public void queue(AudioTrack track) {
         if (!player.startTrack(track, true)) {
             queue.offer(track);
-            event.getTextChannel().sendMessage(MessageHandler.embedBuilder("Music", "Has been added to the queue", event).build());
+            event.getChannel().sendMessage(MessageHandler.embedBuilder("Music", "Has been added to the queue", event).build()).queue();
         }else{
-            event.getTextChannel().sendMessage(MessageHandler.embedBuilder("Music", "Currently playing", event).build());
+            event.getChannel().sendMessage(MessageHandler.embedBuilder("Music", "Currently playing", event).build()).queue();
             
         }
     }
