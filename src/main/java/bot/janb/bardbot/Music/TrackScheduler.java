@@ -1,5 +1,7 @@
 package bot.janb.bardbot.Music;
 
+import bot.janb.bardbot.Messages.MessageHandler;
+import com.jagrosh.jdautilities.command.CommandEvent;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
@@ -11,7 +13,7 @@ public class TrackScheduler extends AudioEventAdapter{
     
     private AudioPlayer player;
     private final BlockingQueue<AudioTrack> queue;
-    private int counter;
+    private CommandEvent event;
 
     public TrackScheduler(AudioPlayer player){
         this.player = player;
@@ -27,6 +29,10 @@ public class TrackScheduler extends AudioEventAdapter{
     public void queue(AudioTrack track) {
         if (!player.startTrack(track, true)) {
             queue.offer(track);
+            event.getTextChannel().sendMessage(MessageHandler.embedBuilder("Music", "Has been added to the queue", event).build());
+        }else{
+            event.getTextChannel().sendMessage(MessageHandler.embedBuilder("Music", "Currently playing", event).build());
+            
         }
     }
     
@@ -40,6 +46,10 @@ public class TrackScheduler extends AudioEventAdapter{
         if (endReason.mayStartNext) {
             nextTrack();
         }
+    }
+    
+    public void setEvent(CommandEvent event){
+        this.event = event;
     }
 
 }

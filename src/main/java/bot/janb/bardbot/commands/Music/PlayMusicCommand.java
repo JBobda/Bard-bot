@@ -37,21 +37,20 @@ public class PlayMusicCommand extends Command{
         this.guildOnly = true;
         this.aliases = new String[]{"music"};
         
-    }
-
-    @Override
-    protected void execute(CommandEvent event) {
-        //Audio setup
-        openAudioChannel(event);
-        
         //Music Setup
         playerManager = new DefaultAudioPlayerManager();
         player = playerManager.createPlayer();
         trackScheduler = new TrackScheduler(player);
         player.addListener(trackScheduler);
-        AudioSourceManagers.registerRemoteSources(playerManager); 
+        AudioSourceManagers.registerRemoteSources(playerManager);   
+    }
+
+    @Override
+    protected void execute(CommandEvent event) {
+        trackScheduler.setEvent(event);
         playerManager.loadItemOrdered(event.getGuild(), "https://www.youtube.com/watch?v=xpVfcZ0ZcFM",  new ResultHandler(trackScheduler));
-        
+        //Audio setup
+        openAudioChannel(event);
         sendHandler = new SendHandler(player);
         audioManager.setSendingHandler(sendHandler);
         
