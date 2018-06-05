@@ -13,11 +13,22 @@ public class ResultHandler implements AudioLoadResultHandler {
         this.trackScheduler = trackScheduler;
     }
 
+    /**
+     * Runs if there is just one track loaded
+     * 
+     * @param track the track that will be added to the queue 
+     */
     @Override
     public void trackLoaded(AudioTrack track) {
         trackScheduler.queue(track);
     }
 
+    /**
+     * Runs if there is an entire playlist loaded, like from
+     * youtube search or soundcloud search
+     * 
+     * @param playlist the playlist that will be used to load tracks
+     */
     @Override
     public void playlistLoaded(AudioPlaylist playlist) {
         for (AudioTrack track : playlist.getTracks()) {
@@ -28,11 +39,11 @@ public class ResultHandler implements AudioLoadResultHandler {
 
     @Override
     public void noMatches() {
-
+        //NEEDS IMPLEMENTATION
     }
 
     @Override
     public void loadFailed(FriendlyException fe) {
-
+        //NEEDS IMPLEMENTATION
     }
 }

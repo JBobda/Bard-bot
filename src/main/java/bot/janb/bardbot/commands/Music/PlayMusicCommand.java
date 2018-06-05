@@ -48,7 +48,9 @@ public class PlayMusicCommand extends Command{
                 sendHandler = new SendHandler(player);
                 audioManager.setSendingHandler(sendHandler);
                 
+                //loads Music choices into the playManager
                 playerManager.loadItemOrdered(player, "ytsearch:" + event.getArgs(),  new ResultHandler(trackScheduler));
+                
             }
         }else{
             event.getChannel().sendMessage(MessageHandler.embedBuilder(name, "What do you want me to play?", event).build()).queue();

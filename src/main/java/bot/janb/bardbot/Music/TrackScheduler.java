@@ -8,6 +8,8 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.managers.AudioManager;
 
 public class TrackScheduler extends AudioEventAdapter {
 
@@ -21,7 +23,8 @@ public class TrackScheduler extends AudioEventAdapter {
     }
 
     /**
-     * Adds AudioTracks to the list which acts as a queue
+     * Adds AudioTracks to the queue, if there is no track
+     * currently playing, it will play the first requested track
      *
      * @param track that needs to be added to the list(queue)
      */
@@ -39,6 +42,12 @@ public class TrackScheduler extends AudioEventAdapter {
         }
     }
 
+    /**
+     * Plays the next track in the queue and sends a message in
+     * the channel saying that the track is now playing
+     * 
+     * @param track that should be played or added to queue
+     */
     public void nextTrack(AudioTrack track) {
         player.startTrack(queue.poll(), false);
         event.getChannel()
@@ -47,20 +56,35 @@ public class TrackScheduler extends AudioEventAdapter {
         
     }
 
+    /**
+     * When the track currently playing ends it will look to see if the queue is empty
+     * if it still has items, it will play the next item in the queue
+     * 
+     * @param player the player object 
+     * @param track the track that has ended
+     * @param endReason the reason why the track ended
+     */
     @Override
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
+        Guild g = event.getGuild();
         event.getChannel().sendMessage(MessageHandler.embedBuilder("Music", track.getIdentifier() + " has ended").build()).queue();
         // Only start the next track if the end reason is suitable for it (FINISHED or LOAD_FAILED)
+        if (queue.isEmpty()) {
+            g.getAudioManager().closeAudioConnection();
+        }
         if (endReason.mayStartNext) {
-            if (queue.isEmpty()) {
-                return;
-            }
             nextTrack(track);
         }
     }
 
+    /**
+     * Allows for outside classes to set the event for this 
+     * TrackScheduler
+     * 
+     * @param event the event that is used for channel info 
+     */
     public void setEvent(CommandEvent event) {
         this.event = event;
     }
-
+    
 }
