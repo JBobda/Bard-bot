@@ -6,10 +6,11 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.managers.AudioManager;
 
 public class TrackScheduler extends AudioEventAdapter {
 
@@ -70,7 +71,12 @@ public class TrackScheduler extends AudioEventAdapter {
         event.getChannel().sendMessage(MessageHandler.embedBuilder("Music", track.getIdentifier() + " has ended").build()).queue();
         // Only start the next track if the end reason is suitable for it (FINISHED or LOAD_FAILED)
         if (queue.isEmpty()) {
-            g.getAudioManager().closeAudioConnection();
+            new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        g.getAudioManager().closeAudioConnection();
+                    }
+                }, 500);
         }
         if (endReason.mayStartNext) {
             nextTrack(track);
