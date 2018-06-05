@@ -4,14 +4,8 @@ import bot.janb.bardbot.Messages.MessageHandler;
 import bot.janb.bardbot.Music.*;
 import com.jagrosh.jdautilities.command.*;
 import com.jagrosh.jdautilities.doc.standard.CommandInfo;
-import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
-import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
-import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
-import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
+import com.sedmelluq.discord.lavaplayer.player.*;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
-import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
-import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.core.audio.AudioSendHandler;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.managers.AudioManager;
@@ -25,9 +19,9 @@ public class PlayMusicCommand extends Command{
     
     private VoiceChannel voiceChannel;
     private AudioManager audioManager;
-    private AudioPlayerManager playerManager;
-    private AudioPlayer player;
-    private TrackScheduler trackScheduler;
+    private final AudioPlayerManager playerManager;
+    private final AudioPlayer player;
+    private final TrackScheduler trackScheduler;
     private AudioSendHandler sendHandler;
     
     public PlayMusicCommand(){
@@ -48,11 +42,17 @@ public class PlayMusicCommand extends Command{
     @Override
     protected void execute(CommandEvent event) {
         trackScheduler.setEvent(event);
-        playerManager.loadItemOrdered(event.getGuild(), "https://www.youtube.com/watch?v=xpVfcZ0ZcFM",  new ResultHandler(trackScheduler));
-        //Audio setup
-        openAudioChannel(event);
-        sendHandler = new SendHandler(player);
-        audioManager.setSendingHandler(sendHandler);
+        if(!event.getArgs().isEmpty()){
+            //Audio setup
+            if (openAudioChannel(event)) {
+                sendHandler = new SendHandler(player);
+                audioManager.setSendingHandler(sendHandler);
+                
+                playerManager.loadItemOrdered(player, "ytsearch:" + event.getArgs(),  new ResultHandler(trackScheduler));
+            }
+        }else{
+            event.getChannel().sendMessage(MessageHandler.embedBuilder(name, "What do you want me to play?", event).build()).queue();
+        } 
         
     }
     
@@ -61,17 +61,20 @@ public class PlayMusicCommand extends Command{
      * and has the bot join that channel
      * 
      * @param event that contains the voice channel the bot joins
+     * @return boolean that confirms if the bot joined a voice channel
      */
-    public void openAudioChannel(CommandEvent event){
+    public boolean openAudioChannel(CommandEvent event){
         voiceChannel = event.getMember().getVoiceState().getChannel();
         audioManager = event.getGuild().getAudioManager();
         
         String text;
         if(voiceChannel != null){
             audioManager.openAudioConnection(voiceChannel);
+            return true;
         }else{
             text = "Can't play music if you are not in a voice channel!";
             event.getChannel().sendMessage(MessageHandler.embedBuilder(name, text, event).build()).queue();
+            return false;
         }
     }
 }

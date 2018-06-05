@@ -7,7 +7,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 
 public class ResultHandler implements AudioLoadResultHandler {
 
-    private TrackScheduler trackScheduler;
+    private final TrackScheduler trackScheduler;
 
     public ResultHandler(TrackScheduler trackScheduler) {
         this.trackScheduler = trackScheduler;
@@ -22,6 +22,7 @@ public class ResultHandler implements AudioLoadResultHandler {
     public void playlistLoaded(AudioPlaylist playlist) {
         for (AudioTrack track : playlist.getTracks()) {
             trackScheduler.queue(track);
+            break;
         }
     }
 
