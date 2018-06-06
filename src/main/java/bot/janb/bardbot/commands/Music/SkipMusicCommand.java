@@ -14,6 +14,8 @@ public class SkipMusicCommand extends Command{
     
     public final PlayMusicCommand playMusicCommand;
     public final TrackScheduler trackScheduler;
+    public int yesVoteCount;
+    public int noVoteCount;
 
     public SkipMusicCommand(PlayMusicCommand playMusicCommand){
         this.name = "skip";
@@ -27,8 +29,13 @@ public class SkipMusicCommand extends Command{
     
     @Override
     protected void execute(CommandEvent event) {
-        trackScheduler.nextTrack();
-        event.getChannel().sendMessage(MessageHandler.embedBuilder("Music", "The current track has been skipped", event).build()).queue();
+        yesVoteCount = 0;
+        noVoteCount = 0;
+        
+        if(yesVoteCount > noVoteCount){
+            trackScheduler.nextTrack();
+            event.getChannel().sendMessage(MessageHandler.embedBuilder("Music", "The current track has been skipped").build()).queue();
+        }
     }
 
 }
