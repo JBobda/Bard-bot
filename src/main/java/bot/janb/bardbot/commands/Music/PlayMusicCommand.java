@@ -34,22 +34,22 @@ public class PlayMusicCommand extends Command{
         //Music Setup
         playerManager = new DefaultAudioPlayerManager();
         player = playerManager.createPlayer();
-        trackScheduler = new TrackScheduler(player);
+        trackScheduler = new TrackScheduler(getPlayer());
         player.addListener(trackScheduler);
         AudioSourceManagers.registerRemoteSources(playerManager);   
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        trackScheduler.setEvent(event);
+        getTrackScheduler().setEvent(event);
         if(!event.getArgs().isEmpty()){
             //Audio setup
             if (openAudioChannel(event)) {
-                sendHandler = new SendHandler(player);
-                audioManager.setSendingHandler(sendHandler);
+                setSendHandler(new SendHandler(getPlayer()));
+                getAudioManager().setSendingHandler(getSendHandler());
                 
                 //loads Music choices into the playManager
-                playerManager.loadItemOrdered(player, "ytsearch:" + event.getArgs(),  new ResultHandler(trackScheduler));
+                getPlayerManager().loadItemOrdered(getPlayer(), "ytsearch:" + event.getArgs(),  new ResultHandler(getTrackScheduler()));
                 
             }
         }else{
@@ -66,18 +66,81 @@ public class PlayMusicCommand extends Command{
      * @return boolean that confirms if the bot joined a voice channel
      */
     public boolean openAudioChannel(CommandEvent event){
-        voiceChannel = event.getMember().getVoiceState().getChannel();
-        audioManager = event.getGuild().getAudioManager();
+        setVoiceChannel(event.getMember().getVoiceState().getChannel());
+        setAudioManager(event.getGuild().getAudioManager());
         
         String text;
-        if(voiceChannel != null){
-            audioManager.openAudioConnection(voiceChannel);
+        if(getVoiceChannel() != null){
+            getAudioManager().openAudioConnection(getVoiceChannel());
             return true;
         }else{
             text = "Can't play music if you are not in a voice channel!";
             event.getChannel().sendMessage(MessageHandler.embedBuilder(name, text, event).build()).queue();
             return false;
         }
+    }
+
+    /**
+     * @return the voiceChannel
+     */
+    public VoiceChannel getVoiceChannel() {
+        return voiceChannel;
+    }
+
+    /**
+     * @param voiceChannel the voiceChannel to set
+     */
+    public void setVoiceChannel(VoiceChannel voiceChannel) {
+        this.voiceChannel = voiceChannel;
+    }
+
+    /**
+     * @return the audioManager
+     */
+    public AudioManager getAudioManager() {
+        return audioManager;
+    }
+
+    /**
+     * @param audioManager the audioManager to set
+     */
+    public void setAudioManager(AudioManager audioManager) {
+        this.audioManager = audioManager;
+    }
+
+    /**
+     * @return the playerManager
+     */
+    public AudioPlayerManager getPlayerManager() {
+        return playerManager;
+    }
+
+    /**
+     * @return the player
+     */
+    public AudioPlayer getPlayer() {
+        return player;
+    }
+
+    /**
+     * @return the trackScheduler
+     */
+    public TrackScheduler getTrackScheduler() {
+        return trackScheduler;
+    }
+
+    /**
+     * @return the sendHandler
+     */
+    public AudioSendHandler getSendHandler() {
+        return sendHandler;
+    }
+
+    /**
+     * @param sendHandler the sendHandler to set
+     */
+    public void setSendHandler(AudioSendHandler sendHandler) {
+        this.sendHandler = sendHandler;
     }
 }
     

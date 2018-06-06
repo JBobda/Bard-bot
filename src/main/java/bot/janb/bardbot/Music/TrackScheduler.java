@@ -49,10 +49,10 @@ public class TrackScheduler extends AudioEventAdapter {
      * 
      * @param track that should be played or added to queue
      */
-    public void nextTrack(AudioTrack track) {
-        player.startTrack(queue.poll(), false);
+    public void nextTrack() {
+        player.startTrack(queue.peek(), false);
         event.getChannel()
-                 .sendMessage(MessageHandler.embedBuilder("Music",track.getIdentifier() + "Now playing", event).build())
+                 .sendMessage(MessageHandler.embedBuilder("Music","Now playing", event).build())
                  .queue();
         
     }
@@ -78,9 +78,11 @@ public class TrackScheduler extends AudioEventAdapter {
                     }
                 }, 500);
         }
-        if (endReason.mayStartNext) {
-            nextTrack(track);
+        queue.poll();
+        if(endReason.mayStartNext) {
+            nextTrack();
         }
+        
     }
 
     /**

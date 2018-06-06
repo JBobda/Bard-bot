@@ -1,7 +1,7 @@
 package bot.janb.bardbot;
 
 import bot.janb.bardbot.commands.*;
-import bot.janb.bardbot.commands.Music.PlayMusicCommand;
+import bot.janb.bardbot.commands.Music.*;
 import bot.janb.bardbot.commands.fun.*;
 import com.jagrosh.jdautilities.command.*;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
@@ -76,7 +76,9 @@ public class BotLoader {
         cBuilder.addCommand(new JokeCommand());
         
         //Music Commands
-        cBuilder.addCommand(new PlayMusicCommand());
+        PlayMusicCommand playMusicCommand = new PlayMusicCommand();
+        cBuilder.addCommand(playMusicCommand);
+        cBuilder.addCommand(new SkipMusicCommand(playMusicCommand));
         
     }
     
