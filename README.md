@@ -59,6 +59,9 @@ or
 ## Built With
 
 * [Maven](https://maven.apache.org/) - Dependency Management
+* [JDA](https://github.com/DV8FromTheWorld/JDA) - Java Discord API
+* [JDA Utilities](https://github.com/JDA-Applications/JDA-Utilities) - JDA Framework
+* [LavaPlayer](https://github.com/sedmelluq/lavaplayer) - Audio Library
 
 ## Contributing
 
