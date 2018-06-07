@@ -39,6 +39,12 @@ public class PlayMusicCommand extends Command{
         AudioSourceManagers.registerRemoteSources(playerManager);   
     }
 
+    /**
+     * When the event occurs, this will run and search the arguments on 
+     * youtube and add them to the playlist
+     * 
+     * @param event the event that occurs to execute this command 
+     */
     @Override
     protected void execute(CommandEvent event) {
         getTrackScheduler().setEvent(event);

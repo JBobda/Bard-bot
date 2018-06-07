@@ -79,6 +79,7 @@ public class BotLoader {
         PlayMusicCommand playMusicCommand = new PlayMusicCommand();
         cBuilder.addCommand(playMusicCommand);
         cBuilder.addCommand(new SkipMusicCommand(playMusicCommand));
+        cBuilder.addCommand(new ForceSkipMusicCommand(playMusicCommand));
         
     }
     
