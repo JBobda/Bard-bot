@@ -5,6 +5,10 @@ import bot.janb.bardbot.Music.TrackScheduler;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jdautilities.doc.standard.CommandInfo;
+import net.dv8tion.jda.core.entities.Emote;
+import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.requests.RestAction;
+import net.dv8tion.jda.core.requests.restaction.MessageAction;
 
 @CommandInfo(
     name = {"Skip", "VoteSkip"},
@@ -32,9 +36,18 @@ public class SkipMusicCommand extends Command{
         yesVoteCount = 0;
         noVoteCount = 0;
         
+        String embedMessage = "Quick! Vote wether or not you want to skip the current song!";
+        //event.getChannel().sendMessage(MessageHandler.embedBuilder("Vote Skip", embedMessage).build()).queue();
+        RestAction<Message> mAction = event.getChannel().sendMessage(MessageHandler.embedBuilder("Vote Skip", embedMessage).build());
+        Message myMessage = mAction.complete();
+        //Thumbs up Reaction
+        myMessage.addReaction("\uD83D\uDC4D").queue();
+        //Thumbs down reaction
+        myMessage.addReaction("\uD83D\uDC4E").queue();
+
         if(yesVoteCount > noVoteCount){
             trackScheduler.nextTrack();
-            event.getChannel().sendMessage(MessageHandler.embedBuilder("Music", "The current track has been skipped").build()).queue();
+            event.getChannel().sendMessage(MessageHandler.embedBuilder("Vote Skip", "The current track has been skipped").build()).queue();
         }
     }
 
