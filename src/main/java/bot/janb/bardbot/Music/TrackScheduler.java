@@ -36,9 +36,11 @@ public class TrackScheduler extends AudioEventAdapter {
                  .sendMessage(MessageHandler.embedBuilder("Music", track.getIdentifier()+ "has been added to the queue", event).build())
                  .queue();
         } else {
-            event.getChannel()
-                 .sendMessage(MessageHandler.embedBuilder("Music", "Now playing", event).build())
-                 .queue();
+            if(!queue.isEmpty()){
+                event.getChannel()
+                     .sendMessage(MessageHandler.embedBuilder("Music", "Now playing", event).build())
+                     .queue();
+            }
 
         }
     }
@@ -50,7 +52,7 @@ public class TrackScheduler extends AudioEventAdapter {
      * @param track that should be played or added to queue
      */
     public void nextTrack() {
-        player.startTrack(queue.peek(), false);
+        player.startTrack(queue.poll(), false);
         event.getChannel()
                  .sendMessage(MessageHandler.embedBuilder("Music","Now playing", event).build())
                  .queue();
@@ -78,7 +80,6 @@ public class TrackScheduler extends AudioEventAdapter {
                     }
                 }, 500);
         }
-        queue.poll();
         if(endReason.mayStartNext) {
             nextTrack();
         }
@@ -93,6 +94,10 @@ public class TrackScheduler extends AudioEventAdapter {
      */
     public void setEvent(CommandEvent event) {
         this.event = event;
+    }
+    
+    public AudioPlayer getPlayer(){
+        return player;
     }
     
 }
