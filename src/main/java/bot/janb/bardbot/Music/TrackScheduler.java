@@ -52,6 +52,15 @@ public class TrackScheduler extends AudioEventAdapter {
      * @param track that should be played or added to queue
      */
     public void nextTrack() {
+        Guild guild = event.getGuild();
+        if (queue.isEmpty()) {
+            new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        guild.getAudioManager().closeAudioConnection();
+                    }
+                }, 500);
+        }
         player.startTrack(queue.poll(), false);
         event.getChannel()
                  .sendMessage(MessageHandler.embedBuilder("Music","Now playing", event).build())
@@ -69,17 +78,8 @@ public class TrackScheduler extends AudioEventAdapter {
      */
     @Override
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
-        Guild g = event.getGuild();
         event.getChannel().sendMessage(MessageHandler.embedBuilder("Music", track.getIdentifier() + " has ended").build()).queue();
         // Only start the next track if the end reason is suitable for it (FINISHED or LOAD_FAILED)
-        if (queue.isEmpty()) {
-            new Timer().schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        g.getAudioManager().closeAudioConnection();
-                    }
-                }, 500);
-        }
         if(endReason.mayStartNext) {
             nextTrack();
         }
@@ -96,6 +96,10 @@ public class TrackScheduler extends AudioEventAdapter {
         this.event = event;
     }
     
+    /**
+     * Allows access to the audio player to outside classes
+     * @return AudioPlayer the player of this trackScheduler
+     */
     public AudioPlayer getPlayer(){
         return player;
     }

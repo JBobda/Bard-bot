@@ -2,7 +2,12 @@ package bot.janb.bardbot.Messages;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
 import java.awt.Color;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.User;
 
 public class MessageHandler {
@@ -85,8 +90,16 @@ public class MessageHandler {
         return builder;
     }
     
-    public static void autoDelete(){
-    
+    public static void autoDelete(Message message){
+        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+        
+        scheduler.schedule(new Runnable(){
+            @Override
+            public void run(){
+                message.delete();
+            }
+        }, 7, TimeUnit.DAYS);
+        
     }
     
     
