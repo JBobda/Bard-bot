@@ -85,5 +85,9 @@ public class MessageHandler {
         return builder;
     }
     
+    public static void autoDelete(){
+    
+    }
+    
     
 }

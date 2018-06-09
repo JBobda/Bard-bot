@@ -5,18 +5,8 @@ import bot.janb.bardbot.Music.TrackScheduler;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jdautilities.doc.standard.CommandInfo;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
-import static java.util.concurrent.TimeUnit.SECONDS;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.requests.restaction.MessageAction;
 
 @CommandInfo(
@@ -27,6 +17,9 @@ public class SkipMusicCommand extends Command {
 
     public final PlayMusicCommand playMusicCommand;
     public final TrackScheduler trackScheduler;
+    public boolean hasExecuted;
+    public MessageAction mAction;
+    public Message myMessage;
     public int yesVoteCount;
     public int noVoteCount;
 
@@ -38,6 +31,7 @@ public class SkipMusicCommand extends Command {
 
         this.playMusicCommand = playMusicCommand;
         this.trackScheduler = playMusicCommand.getTrackScheduler();
+        this.hasExecuted = false;
     }
 
     @Override
@@ -47,45 +41,36 @@ public class SkipMusicCommand extends Command {
             return;
         }
 
-        yesVoteCount = 0;
-        noVoteCount = 0;
-
         String embedMessage = "Quick! Vote wether or not you want to skip the current song!";
-        MessageAction mAction = event.getChannel().sendMessage(MessageHandler.embedBuilder("Vote Skip", embedMessage).build());
-        Message myMessage = mAction.complete();
+        mAction = event.getChannel().sendMessage(MessageHandler.embedBuilder("Vote Skip", embedMessage).build());
+        myMessage = mAction.complete();
 
         //Thumbs up Reaction
-        myMessage.addReaction("\uD83D\uDC4D").queue();
+        myMessage.addReaction("\uD83D\uDC4D").complete();
         //Thumbs down reaction
-        myMessage.addReaction("\uD83D\uDC4E").queue();
+        myMessage.addReaction("\uD83D\uDC4E").complete();  
+        
+        hasExecuted = true;
+        
+    }
+    
+    public void loadCommand(MessageReceivedEvent event){
+        //Prevents the BotListener from calling this method in a nonstop cycle
+        hasExecuted = false;
+        int yesVoteCount = 0;
+        int noVoteCount = 0;
 
-        ScheduledExecutorService scheduledExecutorService
-                = Executors.newScheduledThreadPool(1);
-
-        scheduledExecutorService.schedule(new Callable() {
-                    public Object call() throws Exception {
-                        yesVoteCount = myMessage.getReactions().get(0).getCount();
-                        noVoteCount = myMessage.getReactions().get(1).getCount();
-                        System.out.println("IT GOT HERE");
-                        return "Called";
-                    }
-                }, 5, TimeUnit.SECONDS);
-
-        /*
-        try{
-            Thread.sleep(5000);
-            yesVoteCount = myMessage.getReactions().get(0).getCount();
-            noVoteCount = myMessage.getReactions().get(1).getCount();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(SkipMusicCommand.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         */
-        System.out.println("IT ALSO GOT HERE");
+        mAction = event.getMessage().editMessage(MessageHandler.embedBuilder("Vote Skip", "The time to vote is over, time has run out!").build());
+        myMessage = mAction.complete();
+        yesVoteCount = myMessage.getReactions().get(0).getCount();
+        noVoteCount = myMessage.getReactions().get(1).getCount();
 
         if (yesVoteCount > noVoteCount) {
-            trackScheduler.nextTrack();
+            System.out.println("THE VOTE WAS SUCCESFUL!");
             event.getChannel().sendMessage(MessageHandler.embedBuilder("Vote Skip", "The current track has been skipped").build()).queue();
-        }else{
+            trackScheduler.nextTrack();
+        } else {
+            System.out.println("THE VOTE HAS FAILED!");
             event.getChannel().sendMessage(MessageHandler.embedBuilder("Vote Skip", "The Vote skip has failed.").build()).queue();
         }
     }

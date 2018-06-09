@@ -23,6 +23,9 @@ public class BotLoader {
     private String token;
     private String ownerID;
     
+    private PlayMusicCommand playMusicCommand = new PlayMusicCommand();
+    private SkipMusicCommand skipMusicCommand = new SkipMusicCommand(playMusicCommand);
+    
     /**
      * Loads all of the proper information of the Bot
      * 
@@ -37,7 +40,6 @@ public class BotLoader {
         
         //Sets up the Event waiter
         waiter = new EventWaiter();
-        
         //Config
         token = botInfo.get(0);
         ownerID = botInfo.get(1);
@@ -56,7 +58,7 @@ public class BotLoader {
                 .setToken(token)
                 .setAutoReconnect(true)
                 .setStatus(OnlineStatus.ONLINE)
-                .addEventListener(waiter)
+                .addEventListener(new BotListener(skipMusicCommand, playMusicCommand))
                 .addEventListener(cBuilder.build())
                 .buildBlocking();
 
@@ -76,9 +78,9 @@ public class BotLoader {
         cBuilder.addCommand(new JokeCommand());
         
         //Music Commands
-        PlayMusicCommand playMusicCommand = new PlayMusicCommand();
+        
         cBuilder.addCommand(playMusicCommand);
-        cBuilder.addCommand(new SkipMusicCommand(playMusicCommand));
+        cBuilder.addCommand(skipMusicCommand);
         cBuilder.addCommand(new ForceSkipMusicCommand(playMusicCommand));
         
     }
