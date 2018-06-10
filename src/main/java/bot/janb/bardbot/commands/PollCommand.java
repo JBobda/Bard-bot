@@ -16,6 +16,7 @@ public class PollCommand extends Command{
     public int[] optionResults;
     public Message myMessage;
     public MessageAction mAction;
+    public String[] choices;
 
     public PollCommand(){
         this.name = "poll";
@@ -30,7 +31,7 @@ public class PollCommand extends Command{
             event.getChannel().sendMessage(MessageHandler.embedBuilder(name, "You didn't give any options!", event).build()).queue();
             return;
         }
-        String[] choices = event.getArgs().split("\\s+");
+        choices = event.getArgs().split("\\s+");
         optionResults = new int[choices.length];
         String[] symbols = {"\u0031\u20E3", "\u0032\u20E3", "\u0033\u20E3", "\u0034\u20E3", "\u0035\u20E3", "\u0036\u20E3", "\u0037\u20E3" + "\u0038\u20E3" + "\u0039\u20E3"};
         if (choices.length > 9) {
@@ -88,24 +89,24 @@ public class PollCommand extends Command{
             for (int i = 0; i < indecesOfWinners.size(); i++) {
                 
                 if (i == indecesOfWinners.size() -2) {
-                    winners = winners + indecesOfWinners.get(i);
+                    winners = winners + choices[indecesOfWinners.get(i)];
                     winners = winners + " and";
                 }else if(i == indecesOfWinners.size()-1){
-                    winners = winners + " " + indecesOfWinners.get(i);
+                    winners = winners + " " + choices[indecesOfWinners.get(i)];
                 }else{
-                    winners = winners + indecesOfWinners.get(i) + ", ";
+                    winners = winners + choices[indecesOfWinners.get(i)] + ", ";
                 }
                 
             }
             MessageAction action = event.getChannel().sendMessage(MessageHandler.embedBuilder(name, "There was a tie between Options " + winners).build());
-            Message message = action.complete();
-            MessageHandler.autoDelete(message, 20);
+            action.complete();
+            MessageHandler.autoDelete(myMessage, 10);
             return;
         }
         
-        MessageAction action = event.getChannel().sendMessage(MessageHandler.embedBuilder(name, "Option " + (max + 1) + " has won the poll!").build());
-        Message message = action.complete();
-        MessageHandler.autoDelete(message, 20);
+        MessageAction action = event.getChannel().sendMessage(MessageHandler.embedBuilder(name, "Option " + choices[max] + " has won the poll!").build());
+        action.complete();
+        MessageHandler.autoDelete(myMessage);
         
         
     }
