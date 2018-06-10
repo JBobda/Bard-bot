@@ -25,6 +25,7 @@ public class BotLoader {
     
     private PlayMusicCommand playMusicCommand = new PlayMusicCommand();
     private SkipMusicCommand skipMusicCommand = new SkipMusicCommand(playMusicCommand);
+    private PollCommand pollCommand = new PollCommand();
     
     /**
      * Loads all of the proper information of the Bot
@@ -58,7 +59,7 @@ public class BotLoader {
                 .setToken(token)
                 .setAutoReconnect(true)
                 .setStatus(OnlineStatus.ONLINE)
-                .addEventListener(new BotListener(skipMusicCommand, playMusicCommand))
+                .addEventListener(new BotListener(skipMusicCommand, playMusicCommand, pollCommand))
                 .addEventListener(cBuilder.build())
                 .buildBlocking();
 
@@ -71,7 +72,7 @@ public class BotLoader {
         //General Commands
         cBuilder.addCommand(new SpamCommand());
         cBuilder.addCommand(new MimicCommand());
-        cBuilder.addCommand(new PollCommand());
+        cBuilder.addCommand(pollCommand);
         
         //Fun Commands
         cBuilder.addCommand(new CoinFlipCommand());
