@@ -108,5 +108,23 @@ public class MessageHandler {
         
     }
     
+    /**
+     * Automatically deletes a message sent by the bot after given amount of 
+     * seconds using the ScheduledExecutor 
+     * 
+     * @param message the message that will be deleted
+     * @param seconds the amount of seconds to wait before deletion
+     */
+    public static void autoDelete(Message message, int seconds){
+        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+        
+        scheduler.schedule(new Runnable(){
+            @Override
+            public void run(){
+                message.delete().complete();
+            }
+        }, seconds, TimeUnit.SECONDS);
+    }
+    
     
 }

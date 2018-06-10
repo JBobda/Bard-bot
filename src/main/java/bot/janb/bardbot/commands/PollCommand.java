@@ -3,6 +3,8 @@ package bot.janb.bardbot.commands;
 import bot.janb.bardbot.Messages.MessageHandler;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import java.util.ArrayList;
+import java.util.List;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -73,7 +75,37 @@ public class PollCommand extends Command{
             }
         }
         
-        event.getChannel().sendMessage(MessageHandler.embedBuilder(name, "Option " + (max + 1) + " has won the poll!").build()).queue();
+        List<Integer> indecesOfWinners = new ArrayList<Integer>();
+        
+        for (int i = 0; i < results.length; i++) {
+            if (results[i] == results[max]) {
+                indecesOfWinners.add(i+1);
+            }
+        }
+        
+        if (indecesOfWinners.size() > 1) {
+            String winners = "";
+            for (int i = 0; i < indecesOfWinners.size(); i++) {
+                
+                if (i == indecesOfWinners.size() -2) {
+                    winners = winners + indecesOfWinners.get(i);
+                    winners = winners + " and";
+                }else if(i == indecesOfWinners.size()-1){
+                    winners = winners + " " + indecesOfWinners.get(i);
+                }else{
+                    winners = winners + indecesOfWinners.get(i) + ", ";
+                }
+                
+            }
+            MessageAction action = event.getChannel().sendMessage(MessageHandler.embedBuilder(name, "There was a tie between Options " + winners).build());
+            Message message = action.complete();
+            MessageHandler.autoDelete(message, 20);
+            return;
+        }
+        
+        MessageAction action = event.getChannel().sendMessage(MessageHandler.embedBuilder(name, "Option " + (max + 1) + " has won the poll!").build());
+        Message message = action.complete();
+        MessageHandler.autoDelete(message, 20);
         
         
     }
