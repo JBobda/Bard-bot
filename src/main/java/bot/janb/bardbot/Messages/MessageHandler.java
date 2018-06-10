@@ -90,15 +90,21 @@ public class MessageHandler {
         return builder;
     }
     
+    /**
+     * Automatically deletes a message sent by the bot after 7 seconds
+     * using the ScheduledExecutor 
+     * 
+     * @param message requires a message to be deleted
+     */
     public static void autoDelete(Message message){
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
         
         scheduler.schedule(new Runnable(){
             @Override
             public void run(){
-                message.delete();
+                message.delete().complete();
             }
-        }, 7, TimeUnit.DAYS);
+        }, 7, TimeUnit.SECONDS);
         
     }
     

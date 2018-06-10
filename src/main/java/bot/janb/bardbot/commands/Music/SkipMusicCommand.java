@@ -66,12 +66,19 @@ public class SkipMusicCommand extends Command {
         noVoteCount = myMessage.getReactions().get(1).getCount();
 
         if (yesVoteCount > noVoteCount) {
-            System.out.println("THE VOTE WAS SUCCESFUL!");
-            event.getChannel().sendMessage(MessageHandler.embedBuilder("Vote Skip", "The current track has been skipped").build()).queue();
+            //IF THE VOTE WAS SUCCESSFUL
+            MessageAction action = event.getChannel().sendMessage(MessageHandler.embedBuilder("Vote Skip", "The current track has been skipped").build());
+            Message msg = action.complete();
+            MessageHandler.autoDelete(msg);
+            MessageHandler.autoDelete(myMessage);
             trackScheduler.nextTrack();
         } else {
-            System.out.println("THE VOTE HAS FAILED!");
-            event.getChannel().sendMessage(MessageHandler.embedBuilder("Vote Skip", "The Vote skip has failed.").build()).queue();
+            //IF THE VOTE FAILED
+            MessageAction action = event.getChannel().sendMessage(MessageHandler.embedBuilder("Vote Skip", "The current track has been skipped").build());
+            Message msg = action.complete();
+            MessageHandler.autoDelete(msg);
+            MessageHandler.autoDelete(myMessage);
+            
         }
     }
 

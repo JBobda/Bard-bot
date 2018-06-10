@@ -11,6 +11,8 @@ import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.requests.restaction.MessageAction;
 
 public class TrackScheduler extends AudioEventAdapter {
 
@@ -32,14 +34,14 @@ public class TrackScheduler extends AudioEventAdapter {
     public void queue(AudioTrack track) {
         if (!player.startTrack(track, true)) {
             queue.offer(track);
-            event.getChannel()
-                 .sendMessage(MessageHandler.embedBuilder("Music", track.getIdentifier()+ "has been added to the queue", event).build())
-                 .queue();
+            MessageAction mAction = event.getChannel().sendMessage(MessageHandler.embedBuilder("Music", track.getInfo().title + " has been added to the queue", event).build());
+            Message message = mAction.complete();
+            MessageHandler.autoDelete(message);
         } else {
             if(!queue.isEmpty()){
-                event.getChannel()
-                     .sendMessage(MessageHandler.embedBuilder("Music", "Now playing", event).build())
-                     .queue();
+                MessageAction mAction = event.getChannel().sendMessage(MessageHandler.embedBuilder("Music", "Now Playing " + track.getInfo().title , event).build());
+                Message message = mAction.complete();
+                MessageHandler.autoDelete(message);
             }
 
         }
@@ -60,11 +62,12 @@ public class TrackScheduler extends AudioEventAdapter {
                         guild.getAudioManager().closeAudioConnection();
                     }
                 }, 500);
+            return;
         }
         player.startTrack(queue.poll(), false);
-        event.getChannel()
-                 .sendMessage(MessageHandler.embedBuilder("Music","Now playing", event).build())
-                 .queue();
+        MessageAction mAction = event.getChannel().sendMessage(MessageHandler.embedBuilder("Music", "Now Playing " + player.getPlayingTrack().getInfo().title , event).build());
+        Message message = mAction.complete();
+        MessageHandler.autoDelete(message);
         
     }
 
@@ -78,7 +81,9 @@ public class TrackScheduler extends AudioEventAdapter {
      */
     @Override
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
-        event.getChannel().sendMessage(MessageHandler.embedBuilder("Music", track.getIdentifier() + " has ended").build()).queue();
+        MessageAction mAction = event.getChannel().sendMessage(MessageHandler.embedBuilder("Music", player.getPlayingTrack().getInfo().title + " has ended" , event).build());
+        Message message = mAction.complete();
+        MessageHandler.autoDelete(message);
         // Only start the next track if the end reason is suitable for it (FINISHED or LOAD_FAILED)
         if(endReason.mayStartNext) {
             nextTrack();
