@@ -71,6 +71,7 @@ public class BotLoader {
         //General Commands
         cBuilder.addCommand(new SpamCommand());
         cBuilder.addCommand(new MimicCommand());
+        cBuilder.addCommand(new PollCommand());
         
         //Fun Commands
         cBuilder.addCommand(new CoinFlipCommand());
