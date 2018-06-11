@@ -38,11 +38,9 @@ public class TrackScheduler extends AudioEventAdapter {
             Message message = mAction.complete();
             MessageHandler.autoDelete(message);
         } else {
-            if(!queue.isEmpty()){
-                MessageAction mAction = event.getChannel().sendMessage(MessageHandler.embedBuilder("Music", "Now Playing " + track.getInfo().title , event).build());
-                Message message = mAction.complete();
-                MessageHandler.autoDelete(message);
-            }
+            MessageAction mAction = event.getChannel().sendMessage(MessageHandler.embedBuilder("Music", "Now Playing " + track.getInfo().title , event).build());
+            Message message = mAction.complete();
+            MessageHandler.autoDelete(message);
 
         }
     }
@@ -81,9 +79,6 @@ public class TrackScheduler extends AudioEventAdapter {
      */
     @Override
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
-        MessageAction mAction = event.getChannel().sendMessage(MessageHandler.embedBuilder("Music", player.getPlayingTrack().getInfo().title + " has ended" , event).build());
-        Message message = mAction.complete();
-        MessageHandler.autoDelete(message);
         // Only start the next track if the end reason is suitable for it (FINISHED or LOAD_FAILED)
         if(endReason.mayStartNext) {
             nextTrack();
