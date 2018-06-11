@@ -45,7 +45,7 @@ public class BotListener extends ListenerAdapter {
                 public void run(){
                     pollCommand.countVotes(event);
                 }
-            }, 15, TimeUnit.SECONDS);
+            }, 10, TimeUnit.MINUTES);
         }
 
     }
