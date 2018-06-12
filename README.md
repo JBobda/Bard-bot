@@ -1,6 +1,6 @@
-# ![Bard Picture](https://github.com/JBobda/Bard-bot/blob/master/src/main/resources/smollBard.jpg)  Bard Bot 
+# Bard Bot 
 
-A Discord Bot developed for general tasks using the Java Discord API (JDA) and JDA Utilities. Created to be used in gaming servers but works in any other type of setting within the Discord application.
+A Discord Music Bot developed for general tasks using the Java Discord API (JDA), JDA Utilities and LavaPlayer. Created to be used in gaming servers but works in any other type of setting within the Discord application.
 
 ## Getting Started
 
