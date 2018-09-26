@@ -37,7 +37,7 @@ Make sure you have [Java](https://www.java.com/en/download/manual.jsp) and the [
 
 ```sh
 $ git clone https://github.com/JBobda/Bard-bot.git
-$ cd GeneralDiscordBot
+$ cd BardBot
 $ mvn package
 $ cd target
 $ java -jar BardBot-1.0.jar
